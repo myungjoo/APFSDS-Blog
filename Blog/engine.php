@@ -206,7 +206,7 @@ function showList($blogID, $skip, $divPrefix, $search=false, $widthOverride=fals
 	    $skipped = $skip - $property['perPage'];
 	    while ($skipped >= 0) {
 		$returnValue=$returnValue.$searchValue.
-		"<form method=\"post\" action=\"".$property['accessURL']."\" name=\"".$divPrefix."bIL".$linkNumLeft."\">".
+		"<form method=\"post\" action=\"".$property['accessURL']."\" id=\"".$divPrefix."bIL".$linkNumLeft."\" name=\"".$divPrefix."bIL".$linkNumLeft."\">".
 		"<input type=\"hidden\" name=\"SKIP\" value=\"$skipped\" />".
 		"</form>";
 		if ($linkNumLeft==0)
@@ -220,7 +220,7 @@ function showList($blogID, $skip, $divPrefix, $search=false, $widthOverride=fals
 		break;
 	    }
 	    $returnValue=$returnValue.
-	    "<form method=\"post\" action=\"".$property['accessURL']."\" name=\"".$divPrefix."bIL".$linkNumLeft."\">".$searchValue.
+	    "<form method=\"post\" action=\"".$property['accessURL']."\" id=\"".$divPrefix."bIL".$linkNumLeft."\" name=\"".$divPrefix."bIL".$linkNumLeft."\">".$searchValue.
 	    "<input type=\"hidden\" name=\"SKIP\" value=\"0\" />".
 	    "</form>";
 	    $linkTextLeft[$linkNumLeft] = 'First Page';
@@ -241,7 +241,7 @@ function showList($blogID, $skip, $divPrefix, $search=false, $widthOverride=fals
 	    $skipped = $skip + $property['perPage'];
 	    while ($skipped < $num) {
 		$returnValue=$returnValue.
-		"<form method=\"post\" action=\"".$property['accessURL']."\" name=\"".$divPrefix."bIR".$linkNumRight."\">".$searchValue.
+		"<form method=\"post\" action=\"".$property['accessURL']."\" id=\"".$divPrefix."bIR".$linkNumRight."\" name=\"".$divPrefix."bIR".$linkNumRight."\">".$searchValue.
 		"<input type=\"hidden\" name=\"SKIP\" value=\"$skipped\" />".
 		"</form>";
 		if ($linkNumRight==0)
@@ -254,7 +254,7 @@ function showList($blogID, $skip, $divPrefix, $search=false, $widthOverride=fals
 		if ($linkNumRight>=10)
 		    break;
 	    }
-	    $returnValue.="<form method=\"post\" action=\"".$property['accessURL']."\" name=\"".$divPrefix."bIR".$linkNumRight."\">".$searchValue.
+	    $returnValue.="<form method=\"post\" action=\"".$property['accessURL']."\" id=\"".$divPrefix."bIR".$linkNumRight."\" name=\"".$divPrefix."bIR".$linkNumRight."\">".$searchValue.
 		"<input type=\"hidden\" name=\"SKIP\" value=\"".($num-5)."\" />".
 		"</form>";
 	    $linkTextRight[$linkNumRight] = 'Last Page';

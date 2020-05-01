@@ -49,7 +49,7 @@ if (isset($_SESSION['APFSDS_FL']))
 if (!isset($_SESSION['APFSDS_Logged']))
 {
     $_SESSION['APFSDS_Logged']=0;
-    $_SESSION['APFSDS_FL'] += 1;
+    $_SESSION['APFSDS_FL'] = 1;
 }
 if (!isset($_SESSION['APFSDS_ID']))
 {
@@ -105,6 +105,8 @@ if ($_SESSION['APFSDS_Logged']==1)
 
 }
 
+if (!isset($securityCheckOnly))
+	$securityCheckOnly = false;
 if ($securityCheckOnly===true)
 	return;
 
@@ -206,6 +208,12 @@ else if ($requestLOG=="OUT")
 print $DOCTYPE."\n";
 
 // 6.1. Top <div> sections definition
+if (!isset($javascriptFunctions))
+	$javascriptFunctions = "";
+if (!isset($javascriptLoadingAddition))
+	$javascriptLoadingAddition = "";
+if (!isset($javascriptUnloadAddition))
+	$javascriptUnloadAddition = "";
 ?>
 <html>
 <head>

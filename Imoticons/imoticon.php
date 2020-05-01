@@ -194,7 +194,7 @@ default:
 	<td><input type="file" name="attachment" size="50" /></td>
 </tr>
 <tr><th style="text-align:right">URL <input type="radio" name="TYPE" value="URL" /></th>
-	<td><input type="text" name="URL" size="80" value="http://" /></td>
+	<td><input type="text" name="URL" size="80" value="https://" /></td>
 </tr>
 <tr><th style="text-align:right">Description</th>
 	<td><textarea cols="50" name="DESCRIPTION" rows="4"></textarea></td>

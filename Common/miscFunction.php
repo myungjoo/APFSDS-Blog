@@ -1,4 +1,5 @@
 <?
+
 // This does
 //  1. add/delete Memo
 //  2. show Memo (returns a string of <tr></tr>rows and its javascript)
@@ -16,19 +17,19 @@
 // 14. show/add(by guest)/delete/update/confirm/reject users
 // 15. describe an account/author (with an independent popup window.)
 
-
 // show : works as php functions
 //   returns array( [string], [javascript data-definition code without "<script></script>"]);
 
 // others(add/delete/modify/set): works as an independent php file.
 //   call it in a div/iframe or in a pop-up window
 
-if (isset($DOCTYPE))
-$alreadyCalled = true;
-else {
-    $alreadyCalled = false;
-    $securityCheckOnly = true;
-    include_once("header.php");
+if (isset($DOCTYPE)) {
+	include_once("common.php");
+	$alreadyCalled = true;
+} else {
+	$alreadyCalled = false;
+	$securityCheckOnly = true;
+	include_once("header.php");
 }
 
 if (!$alreadyCalled) // it is the first time to run // read request() and follow it

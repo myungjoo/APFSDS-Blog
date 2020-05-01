@@ -14,6 +14,8 @@
 //
 
 //$DOCTYPE= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
+include_once("php7.inc.php");
+
 $DOCTYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
 $maxType= 3;
 $typeSTR[0]='Standard Web Board';
@@ -26,8 +28,8 @@ $permissionSTR[3]='Regular Membership';
 $permissionSTR[4]='Advanced Membership';
 $permissionSTR[100]='Administrator';
 
-$CSS='http://babot.net/Common/default.css';
-$ICON='http://babot.net/favicon.ico';
+$CSS='https://www.babot.net/Common/default.css';
+$ICON='https://www.babot.net/favicon.ico';
 
 
 $keyIterator = 0; // Includes hiddenCounter in version 3.
@@ -44,12 +46,12 @@ $mkdirMOD = 0750; // chmod of new directories for attachments
 
 $cookieValidFor = (30*24*60*60); // Cookie Login valid for 30 days.
 $cookiePath = '/';
-$cookieDomain = 'babot.net';
+$cookieDomain = 'www.babot.net';
 
 $minTitleLength = 1;
 $maxTitleLength = 200;
 
-$URL = "http://babot.net/";
+$URL = "https://www.babot.net/";
 $LOCAL = "/home/www/";
 $LOCALSEPERATOR= '/';
 $LOGDIR = $LOCAL."LOG/";
@@ -57,8 +59,8 @@ $ATTACHMENTDIR = $LOCAL."Blog/AttachedFiles/";
 
 $MAIL="besthm1 at sparcs dot organization";
 $myName = mb_convert_encoding("«‘∏Ì¡÷"  , "utf-8", "euc-kr");
-$COPYRIGHT = "<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 100px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"http://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"http://babot.net\">MyungJoo's LogBook</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
-$COPYRIGHT_NOMARGIN="<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 0px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"http://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"http://babot.net\">MyungJoo's Mainpage</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
+$COPYRIGHT = "<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 100px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"https://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"https://babot.net\">MyungJoo's LogBook</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
+$COPYRIGHT_NOMARGIN="<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 0px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"https://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"https://babot.net\">MyungJoo's Mainpage</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
 
 $DEBUG = false;
 $_link = null;
@@ -88,13 +90,14 @@ function debug($STR)
 
 function DBConnect()
 {
-	global $imoticonDB, $imoticonKeyList, $URL;
+    global $imoticonDB, $imoticonKeyList, $URL;
+
     if (!$GLOBALS["db_conn"])
     {
 	$link = mysql_connect($GLOBALS["mysqlIP"], $GLOBALS["mysqlID"], $GLOBALS["mysqlPWD"])
-		or die("Could not connect database".$GLOBALS["mysql_IP"]."...");
+		or die("Could not connect database".$GLOBALS["mysqlIP"]."...");
 	debug("Connected successfully<br />");
-	mysql_select_db($GLOBALS["mysqlDBName"]) or die("Could not select database".$GLOBALS["db_name"]."...");
+	mysql_select_db($GLOBALS["mysqlDBName"], $link) or die("Could not select database [".$GLOBALS["mysqlDBName"]."]...");
 	debug("Connected and Selected successfully.<br />");
 	$GLOBALS["_link"] = $link;
 	$GLOBALS["db_conn"]=true;
@@ -139,7 +142,7 @@ function DBClose()
 function DBQ($QUERY)
 {
     debug(html2text($QUERY));
-    $result = mysql_query($QUERY);
+    $result = mysqli_query($GLOBALS["_link"], $QUERY);
     if (!$result)
     {
 	die("INVALID QUERY : ".html2text($QUERY)."<br />\n".mysql_error()."<br />\n");
@@ -190,7 +193,7 @@ function findLink($str)
 	$length = strlen($str);
 	while ($cursor<$length) {
 		$oldCursor = $cursor;
-		$cursor = strpos(substr($str, $cursor), "http://");
+		$cursor = strpos(substr($str, $cursor), "https://");
 		if ($cursor===FALSE) {
 			$ret.=substr($str, $oldCursor);
 			break;
@@ -214,6 +217,8 @@ function findLink($str)
 function sqlSafeRequest($str)
 {
 	$len = strlen($str);
+	if ($len < 1)
+		return "";
 	$cursor = 0;
 	if ($str[0]=="'")
 		$str[0]="`";
@@ -474,7 +479,7 @@ function APFSDShtmlConventionParser($content, $tag, $attached, $articleID, $blog
 
 	$cursor = 0;
 	$length = strlen($content);
-	$randKey = rand(0, 10000);
+	$randomKey = $randKey = rand(0, 10000);
 
 	while ($cursor < $length) {
 		$closingArgumentTag = strpos(substr($content, $cursor), ']]');
