@@ -97,6 +97,8 @@ function DBConnect()
 	$link = mysql_connect($GLOBALS["mysqlIP"], $GLOBALS["mysqlID"], $GLOBALS["mysqlPWD"])
 		or die("Could not connect database".$GLOBALS["mysqlIP"]."...");
 	debug("Connected successfully<br />");
+	// Tables are latin1 holding raw UTF-8 bytes; keep the legacy mysql_* connection charset.
+	mysqli_set_charset($link, "latin1");
 	mysql_select_db($GLOBALS["mysqlDBName"], $link) or die("Could not select database [".$GLOBALS["mysqlDBName"]."]...");
 	debug("Connected and Selected successfully.<br />");
 	$GLOBALS["_link"] = $link;
