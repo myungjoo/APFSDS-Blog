@@ -171,7 +171,18 @@ function getNick($id)
 }
 function logwrite($str)
 {
-    $fp = fopen($GLOBALS["LOGDIR"].date("Ym").".txt" , "a");
+    // Never let a submitted password reach the log, whatever the caller passes.
+    foreach (array($_POST, $_GET) as $src)
+	foreach ($src as $field => $value)
+	    if (preg_match('/PASS|PWD/i', $field) && is_string($value) && strlen($value) >= 3) {
+		$str = str_replace($value, "********", $str);
+		$str = str_replace(addslashes($value), "********", $str);
+	    }
+    $logFile = $GLOBALS["LOGDIR"].date("Ym").".txt";
+    $isNew = !file_exists($logFile);
+    $fp = fopen($logFile, "a");
+    if ($isNew)
+	chmod($logFile, 0640);
     fputs($fp, date("Y-m-d H:i:s")." [".$_SESSION['APFSDS_ID']."(".$_SESSION['APFSDS_Perm'].")] from [".$_SERVER['REMOTE_ADDR']."] :".$str."\r\n");
     fclose($fp);
 }

@@ -175,7 +175,7 @@ if ($requestLOG=="IN")
 		    $_SESSION['APFSDS_ID'] = '';
 		    $_SESSION['APFSDS_Level'] = 0;
 		    $_SESSION['APFSDS_Perm'] = 0;
-		    logwrite("ERROR permission<3 account found: '$requestID':'$requestPassword'");
+		    logwrite("ERROR permission<3 account found: '$requestID'");
 		}
 	}
     }
@@ -186,7 +186,7 @@ if ($requestLOG=="IN")
 	$_SESSION['APFSDS_Level'] = 0;
 	$_SESSION['APFSDS_Perm'] = 0;
 	$displayMessage = $displayMessage."<div class=\"notice\"> Authentification Failure </div>\n";
-	logwrite("Login Failure: ".substr($requestID,0,80)."/".substr($requestPassword, 0,80));
+	logwrite("Login Failure: ".substr($requestID,0,80));
     }
 
 }
