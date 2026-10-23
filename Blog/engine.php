@@ -1632,8 +1632,12 @@ function doWriteArticle($parentDIV )
 			print_r($_FILES["attachFile"]["tmp_name"][$i]);
 		if ($uploaded[$i]===true) {
 			$returnValue.="TRUE.<br />";
-			$fileNameAs[$i] = $_FILES["attachFile"]['name'][$i];
-			$fileMime[$i] = $_FILES["attachFile"]['type'][$i];
+			$fileNameAs[$i] = safeUploadName($_FILES["attachFile"]['name'][$i]);
+			if ($fileNameAs[$i] === false) { // executable/invalid filename
+				$uploaded[$i] = false;
+				continue;
+			}
+			$fileMime[$i] = sqlSafeRequest($_FILES["attachFile"]['type'][$i]);
 			$fileSize[$i] = $_FILES["attachFile"]['size'][$i];
 			$fileName[$i] = $_FILES["attachFile"]['tmp_name'][$i];
 			$actuallyUploadedNum ++;
@@ -1900,8 +1904,12 @@ function doUpdateArticle($blogID, $articleID)
 
 		$uploaded[$i] = isset($_FILES["attachFile"]['tmp_name'][$i]) && is_uploaded_file($_FILES["attachFile"]['tmp_name'][$i]);
 		if ($uploaded[$i]===true) {
-			$fileNameAs[$i] = $_FILES["attachFile"]['name'][$i];
-			$fileMime[$i] = $_FILES["attachFile"]['type'][$i];
+			$fileNameAs[$i] = safeUploadName($_FILES["attachFile"]['name'][$i]);
+			if ($fileNameAs[$i] === false) { // executable/invalid filename
+				$uploaded[$i] = false;
+				continue;
+			}
+			$fileMime[$i] = sqlSafeRequest($_FILES["attachFile"]['type'][$i]);
 			$fileSize[$i] = $_FILES["attachFile"]['size'][$i];
 			$fileName[$i] = $_FILES["attachFile"]['tmp_name'][$i];
 			$actuallyUploadedNum ++;

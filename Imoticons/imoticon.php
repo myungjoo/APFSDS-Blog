@@ -95,14 +95,19 @@ case "ADD":
 		$imageURL = request("URL");
 	} elseif ($type=="UPLOAD") {
 		// $_FILES["attachment"][];
-		$clientFilename = $_FILES["attachment"]['name'];
+		$clientFilename = safeUploadName($_FILES["attachment"]['name'], array("gif","png","jpg","jpeg","webp","bmp"));
+		if ($clientFilename === false) {
+			print ("ERROR: Only image files (gif, png, jpg, jpeg, webp, bmp) are allowed...");
+			DBQ("ROLLBACK");
+			return;
+		}
 		$fileMime = $_FILES['attachment']['type'];
 		$fileSize = $_FILES['attachment']['size'];
 		$localTmpFilename = $_FILES['attachment']['tmp_name'];
 
 		$prefix = rand();
 		$localFilename = $prefix.".".$clientFilename;
-		while (is_file($LOCAL."Imoticon".$LOCALSEPERATOR.$localFilename)) {
+		while (is_file($LOCAL."Imoticons".$LOCALSEPERATOR.$localFilename)) {
 			$prefix = rand();
 			$localFilename = $prefix.".".$clientFilename;
 		}

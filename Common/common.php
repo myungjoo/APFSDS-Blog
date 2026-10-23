@@ -186,6 +186,24 @@ function logwrite($str)
     fputs($fp, date("Y-m-d H:i:s")." [".$_SESSION['APFSDS_ID']."(".$_SESSION['APFSDS_Perm'].")] from [".$_SERVER['REMOTE_ADDR']."] :".$str."\r\n");
     fclose($fp);
 }
+// Sanitize a client-supplied upload filename before it is used as a local
+// filename (and inside SQL). Returns false if the file must be rejected.
+// $allowedExt: optional array of lowercase extensions that are accepted.
+function safeUploadName($name, $allowedExt = null)
+{
+	$name = basename(str_replace("\\", "/", (string)$name));
+	$name = preg_replace('/[\x00-\x1f\x7f\/\\\\\'"`<>:*?|%]/', '', $name);
+	$name = ltrim($name, ". ");
+	if (strlen($name) < 1 || strlen($name) > 200)
+		return false;
+	$dot = strrpos($name, ".");
+	$ext = ($dot === false) ? "" : strtolower(substr($name, $dot + 1));
+	if (preg_match('/^(ph(ar|p[0-9s]?|t|tml)|cgi|pl|py|sh|shtml|htaccess|htpasswd|ini)$/', $ext))
+		return false;
+	if (is_array($allowedExt) && !in_array($ext, $allowedExt, true))
+		return false;
+	return $name;
+}
 function request($name)
 {
 	if ((isset($_POST[$name]) && is_array($_POST[$name])) || (isset($_GET[$name]) && is_array($_GET[$name]))) {
