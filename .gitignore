@@ -7,8 +7,16 @@ Common/dbsecret.php
 .svn/
 svn-commit*.tmp
 
-# Runtime output (uploaded attachments)
+# Runtime output (uploads and temporary files)
 Blog/AttachedFiles/
+Imoticons/*.gif
+Imoticons/*.png
+Imoticons/*.jpg
+Imoticons/*.jpeg
+Imoticons/*.webp
+Imoticons/*.bmp
+phototemp/
+temp/
 
 # Access logs (keep the analyzer script tracked)
 LOG/*
