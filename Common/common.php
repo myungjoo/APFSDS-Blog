@@ -273,7 +273,8 @@ function requestInt($name)
 {
 	if (request($name)=='')
 		return false;
-    return request($name)+0;
+    // intval() instead of +0: PHP 8 throws TypeError on non-numeric strings.
+    return intval(request($name));
 }
 function requestList($name, $integer=false, $distinct = false)
 {
