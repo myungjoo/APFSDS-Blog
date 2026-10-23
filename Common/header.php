@@ -14,9 +14,9 @@ if (!isset($BLOGID))
 
 // 3. Process cookie (for CookieLogin)
 if (isset($_COOKIE['APFSDS_ID']) && (!isset($_SESSION['APFSDS_Logged']) || $_SESSION['APFSDS_Logged']==0) ) {
-	$id = sqlsafe(trim($_COOKIE['APFSDS_ID']));
-	$cookieKey = sqlsafe(trim($_COOKIE['APFSDS_KEY']));
-	$lastPasswordInput = sqlsafe(trim($_COOKIE['APFSDS_KEYDATE']));
+	$id = sqlSafeRequest(trim($_COOKIE['APFSDS_ID']));
+	$cookieKey = sqlSafeRequest(trim($_COOKIE['APFSDS_KEY'] ?? ''));
+	$lastPasswordInput = sqlSafeRequest(trim($_COOKIE['APFSDS_KEYDATE'] ?? ''));
 	$rs = DBQ("select userID from COOKIELOGIN where userID='$id' and cookieKey='$cookieKey' and passwordEntered='$lastPasswordInput'");
 	$r = mysql_fetch_row($rs);
 	mysql_free_result($rs);
@@ -197,7 +197,8 @@ else if ($requestLOG=="OUT")
     $_SESSION['APFSDS_Level'] = 0;
     $_SESSION['APFSDS_Perm'] = 0;
     $_SESSION['APFSDS_DBName'] = $mysqlDBName;
-	DBQ("delete from COOKIELOGIN where passwordEntered='".$_COOKIE['APFSDS_KEYDATE']."' and userID='".$_COOKIE['APFSDS_ID']."' and cookieKey='".$_COOKIE['APFSDS_KEY']."'");
+	if (isset($_COOKIE['APFSDS_ID']))
+		DBQ("delete from COOKIELOGIN where passwordEntered='".sqlSafeRequest(trim($_COOKIE['APFSDS_KEYDATE'] ?? ''))."' and userID='".sqlSafeRequest(trim($_COOKIE['APFSDS_ID']))."' and cookieKey='".sqlSafeRequest(trim($_COOKIE['APFSDS_KEY'] ?? ''))."'");
 	setcookie("APFSDS_ID", $requestID, time()-$cookieValidFor, $cookiePath, $cookieDomain, 0);
 	setcookie("APFSDS_KEY", $key, time()-$cookieValidFor, $cookiePath, $cookieDomain, 0);
 	setcookie("APFSDS_KEYDATE", $now, time()-$cookieValidFor, $cookiePath, $cookieDomain, 0);

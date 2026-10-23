@@ -38,7 +38,9 @@ $imageCounter = 0;
 $startYear = 2002;
 $mysqlIP = 'localhost';
 $mysqlID = 'homepage';
-$mysqlPWD = '--------';
+$mysqlPWD = '--------'; // real value lives in dbsecret.php (not in git)
+if (file_exists(dirname(__FILE__)."/dbsecret.php"))
+	include(dirname(__FILE__)."/dbsecret.php");
 $mysqlDBName = 'homepage';
 
 $maxUpload = 10240; // in kBytes
@@ -178,8 +180,11 @@ function request($name)
 	if ((isset($_POST[$name]) && is_array($_POST[$name])) || (isset($_GET[$name]) && is_array($_GET[$name]))) {
 		$array = (isset($_POST[$name]))?$_POST[$name]:$_GET[$name];
 		$returnValue = array();
-		foreach ($array as $key=>$value)
-			$returnValue[$key] = $value;
+		foreach ($array as $key=>$value) {
+			if (is_array($value))
+				continue;
+			$returnValue[sqlSafeRequest((string)$key)] = sqlSafeRequest($value);
+		}
 		return $returnValue;
 	}
     return sqlSafeRequest(trim(isset($_POST[$name])?$_POST[$name]:(isset($_GET[$name])?$_GET[$name]:'')));
@@ -218,23 +223,10 @@ function findLink($str)
 }
 function sqlSafeRequest($str)
 {
-	$len = strlen($str);
-	if ($len < 1)
-		return "";
-	$cursor = 0;
-	if ($str[0]=="'")
-		$str[0]="`";
-	while ($cursor>=0 && $cursor<$len) {
-		$cursor = strpos($str, "'", $cursor+1);
-		if ($cursor===false)
-			break;
-		if ($str[$cursor-1]!="\\")
-		{	
-			print ("ERRORnous string returned.");
-			$str[$cursor]="`";
-		}
-	}
-    return str_replace(array("'"), array("'"), $str);
+	// Escape for use inside a quoted SQL literal (honors connection charset/sql_mode).
+	if (!isset($GLOBALS["_link"]) || !$GLOBALS["_link"])
+		DBConnect();
+	return mysqli_real_escape_string($GLOBALS["_link"], $str);
 }
 function sqlSafe($str)
 {

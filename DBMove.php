@@ -13,7 +13,8 @@ $oldDB = 'homepage';
 $newDB = 'apfsds';
 $IP = 'localhost';
 $ID = 'homepage';
-$PWD= 'bhdmzx53';
+include(dirname(__FILE__)."/Common/dbsecret.php");
+$PWD= $mysqlPWD;
 $DEBUG = false;
 
 DBClose();
