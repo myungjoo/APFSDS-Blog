@@ -21,3 +21,34 @@ temp/
 # Access logs (keep the analyzer script tracked)
 LOG/*
 !LOG/logAnalyzer.php
+
+# Personal information (public repo: never commit personal data)
+profile/
+academic/
+README.txt
+send_request/
+RandomPicture/*.jpg
+RandomPicture/*.txt
+# third-party script copies carrying their author's e-mail
+photo/netj/
+photo/image.cgi
+
+# Media / data
+20161203/
+share/
+pic/
+image/
+camera/
+cctv/
+out2.jpeg
+ARCHITECTURE.pdf
+
+# Tests, one-off scripts, stock files, local symlinks
+test.php
+test.html
+test.java
+test2.java
+undoConventionVersion1.php
+apache2-default/
+/blog
+dotnet/
