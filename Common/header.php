@@ -221,6 +221,7 @@ if (!isset($javascriptUnloadAddition))
 <title><?=$headerBrowserTitleText?></title>
 <link rel="stylesheet" type="text/css" href="<?=$CSS?>" />
 <link rel="shortcut icon" href="<?=$ICON?>" />
+<link rel="alternate" type="application/rss+xml" title="BaBoT.net RSS" href="<?=$URL?>rss/getRss.php" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="generator" content="MZX" />
 </head>
