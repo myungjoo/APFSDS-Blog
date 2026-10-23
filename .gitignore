@@ -1,1 +1,12 @@
+# Secrets
 Common/dbsecret.php
+.htpasswd
+*.cpt
+
+# Legacy SVN metadata
+.svn/
+svn-commit*.tmp
+
+# Access logs (keep the analyzer script tracked)
+LOG/*
+!LOG/logAnalyzer.php
