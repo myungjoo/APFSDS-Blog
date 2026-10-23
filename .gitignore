@@ -7,6 +7,9 @@ Common/dbsecret.php
 .svn/
 svn-commit*.tmp
 
+# Runtime output (uploaded attachments)
+Blog/AttachedFiles/
+
 # Access logs (keep the analyzer script tracked)
 LOG/*
 !LOG/logAnalyzer.php
