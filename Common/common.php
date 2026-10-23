@@ -28,8 +28,8 @@ $permissionSTR[3]='Regular Membership';
 $permissionSTR[4]='Advanced Membership';
 $permissionSTR[100]='Administrator';
 
-$CSS='https://www.babot.net/Common/default.css';
-$ICON='https://www.babot.net/favicon.ico';
+$CSS='http://www.babot.net/Common/default.css';
+$ICON='http://www.babot.net/favicon.ico';
 
 
 $keyIterator = 0; // Includes hiddenCounter in version 3.
@@ -53,7 +53,7 @@ $cookieDomain = 'www.babot.net';
 $minTitleLength = 1;
 $maxTitleLength = 200;
 
-$URL = "https://www.babot.net/";
+$URL = "http://www.babot.net/";
 $LOCAL = "/home/www/";
 $LOCALSEPERATOR= '/';
 $LOGDIR = $LOCAL."LOG/";
@@ -61,8 +61,8 @@ $ATTACHMENTDIR = $LOCAL."Blog/AttachedFiles/";
 
 $MAIL="besthm1 at sparcs dot organization";
 $myName = mb_convert_encoding("«‘∏Ì¡÷"  , "utf-8", "euc-kr");
-$COPYRIGHT = "<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 100px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"https://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"https://babot.net\">MyungJoo's LogBook</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
-$COPYRIGHT_NOMARGIN="<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 0px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"https://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"https://babot.net\">MyungJoo's Mainpage</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
+$COPYRIGHT = "<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 100px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"http://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"http://babot.net\">MyungJoo's LogBook</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
+$COPYRIGHT_NOMARGIN="<div class=\"COPYRIGHT\" style=\"position: relative; z-index: 1; left: 0px; width: 600px; height: 50px \">&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) by <A href=\"http://babot.net\">MyungJoo Ham $myName</A>.<BR>&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) Since 2002. 2. 5<BR>&nbsp;&nbsp;&nbsp;&nbsp;<A Href=\"http://babot.net\">MyungJoo's Mainpage</A>: Each article's copyright and reponsibility is on each author. Admin has the right to delete and copy. <BR></div>";
 
 $DEBUG = false;
 $_link = null;
@@ -229,7 +229,7 @@ function findLink($str)
 	$length = strlen($str);
 	while ($cursor<$length) {
 		$oldCursor = $cursor;
-		$cursor = strpos(substr($str, $cursor), "https://");
+		$cursor = strpos(substr($str, $cursor), "http://");
 		if ($cursor===FALSE) {
 			$ret.=substr($str, $oldCursor);
 			break;
